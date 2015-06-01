@@ -9,26 +9,25 @@ function OnSelectOption(options)
 end
 
 function OnSelectEffectYesNo(id, triggeringCard)--任意効果
-	return 1
+	return 1--１発動０発動しない
 end
 
-function OnSelectYesNo(description_id)--ダイレクトアタック時に他の場所からモンスターが出てきた場合に戦闘を続けるかどうか
-	if description_id == 10000 then -- continue attacking
+function OnSelectYesNo(description_id)--ダイレクトアタック時に他の場所からモンスターが出てきた場合に戦闘するかどうか
+	if description_id == 30 then -- continue attacking
 		return -1
 	else
-		return 1
+		return -1
 	end
 end
 
-function OnSelectPosition(id, available)
+function OnSelectPosition(id, available)--最初の状態でどの表示形式で出すか
 	local result = 0
-	local band = bit32.band
-  result = POS_FACEUP_ATTACK
+	local band = bit32.band--ビット論理積とは
 	if band(result,available) == 0 then
-		if band(POS_FACEUP_ATTACK,available) > 0 then
-			result = POS_FACEUP_ATTACK
-		elseif band(POS_FACEUP_DEFENCE,available) > 0 then
+		if band(POS_FACEUP_DEFENCE,available) > 0 then
 			result = POS_FACEUP_DEFENCE
+		elseif band(POS_FACEUP_DEFENCE,available) > 0 then
+			result = POS_FACEUP_ATTACK
 		elseif band(POS_FACEDOWN_DEFENCE,available) > 0 then
 			result = POS_FACEDOWN_DEFENCE
 		else
@@ -38,7 +37,7 @@ function OnSelectPosition(id, available)
 	return result
 end
 
-function OnSelectTribute(cards,minTributes, maxTributes)
+function OnSelectTribute(cards,minTributes, maxTributes)--生贄の処理に関する部分　この部分がないとメガロアビスが通常召喚可能な状態で生贄の処理を行わずに出てくる
 	local result = {}
 	local tributes = {}
 	for i=1,#cards do
