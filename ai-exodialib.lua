@@ -143,7 +143,8 @@ COMMAND_SET_ST 				= 4
 COMMAND_ACTIVATE 			= 5
 COMMAND_TO_NEXT_PHASE 		= 6
 COMMAND_TO_END_PHASE 		= 7
-function OnSelectInitCommand(cards, to_bp_allowed, to_ep_allowed)	
+function OnSelectInitCommand(cards, to_bp_allowed, to_ep_allowed)	--コマンドが実行されるとカードの効果が起動して、チェーン解決後にまたこのプログラムが読み込まれる
+
 	if #cards.activatable_cards > 0 then
 		return COMMAND_ACTIVATE,1
 	end
